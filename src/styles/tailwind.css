@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Primary Colors */
+    --color-primary: #2D5A27; /* green-800 */
+    --color-primary-foreground: #FFFFFF; /* white */
+
+    /* Secondary Colors */
+    --color-secondary: #4A90A4; /* blue-500 */
+    --color-secondary-foreground: #FFFFFF; /* white */
+
+    /* Accent Colors */
+    --color-accent: #F4A261; /* orange-400 */
+    --color-accent-foreground: #1A1D29; /* gray-900 */
+
+    /* Background Colors */
+    --color-background: #FAFBFC; /* gray-50 */
+    --color-foreground: #1A1D29; /* gray-900 */
+
+    /* Surface Colors */
+    --color-card: #FFFFFF; /* white */
+    --color-card-foreground: #1A1D29; /* gray-900 */
+
+    --color-popover: #FFFFFF; /* white */
+    --color-popover-foreground: #1A1D29; /* gray-900 */
+
+    /* Muted Colors */
+    --color-muted: #F3F4F6; /* gray-100 */
+    --color-muted-foreground: #6B7280; /* gray-500 */
+
+    /* Border & Input */
+    --color-border: rgba(107, 114, 128, 0.2); /* gray-500 with opacity */
+    --color-input: rgba(107, 114, 128, 0.2); /* gray-500 with opacity */
+    --color-ring: #2D5A27; /* green-800 */
+
+    /* Status Colors */
+    --color-success: #059669; /* green-600 */
+    --color-success-foreground: #FFFFFF; /* white */
+
+    --color-warning: #D97706; /* amber-600 */
+    --color-warning-foreground: #FFFFFF; /* white */
+
+    --color-error: #DC2626; /* red-600 */
+    --color-error-foreground: #FFFFFF; /* white */
+
+    --color-destructive: #DC2626; /* red-600 */
+    --color-destructive-foreground: #FFFFFF; /* white */
+
+    /* Radius */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Primary Colors */
+    --color-primary: #4ADE80; /* green-400 */
+    --color-primary-foreground: #0A0A0A; /* gray-950 */
+
+    /* Secondary Colors */
+    --color-secondary: #67E8F9; /* cyan-300 */
+    --color-secondary-foreground: #0A0A0A; /* gray-950 */
+
+    /* Accent Colors */
+    --color-accent: #FCD34D; /* amber-300 */
+    --color-accent-foreground: #0A0A0A; /* gray-950 */
+
+    /* Background Colors */
+    --color-background: #0A0A0A; /* gray-950 */
+    --color-foreground: #F9FAFB; /* gray-50 */
+
+    /* Surface Colors */
+    --color-card: #1F2937; /* gray-800 */
+    --color-card-foreground: #F9FAFB; /* gray-50 */
+
+    --color-popover: #1F2937; /* gray-800 */
+    --color-popover-foreground: #F9FAFB; /* gray-50 */
+
+    /* Muted Colors */
+    --color-muted: #374151; /* gray-700 */
+    --color-muted-foreground: #D1D5DB; /* gray-300 */
+
+    /* Border & Input */
+    --color-border: rgba(209, 213, 219, 0.2); /* gray-300 with opacity */
+    --color-input: rgba(209, 213, 219, 0.2); /* gray-300 with opacity */
+    --color-ring: #4ADE80; /* green-400 */
+
+    /* Status Colors */
+    --color-success: #10B981; /* green-500 */
+    --color-success-foreground: #0A0A0A; /* gray-950 */
+
+    --color-warning: #F59E0B; /* amber-500 */
+    --color-warning-foreground: #0A0A0A; /* gray-950 */
+
+    --color-error: #EF4444; /* red-500 */
+    --color-error-foreground: #FFFFFF; /* white */
+
+    --color-destructive: #EF4444; /* red-500 */
+    --color-destructive-foreground: #FFFFFF; /* white */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+  }
+}
+
+@layer components {
+  .header {
+    @apply fixed top-0 left-0 right-0 h-16 bg-card border-b border-border z-[100];
+    @apply flex items-center px-6;
+  }
+
+  .header-logo {
+    @apply flex items-center gap-3 mr-8;
+  }
+.header-logo-icon  {
+    @apply w-10 h-10 rounded-lg flex items-center justify-center;
+    @apply text-primary transition-all duration-200;
+  }
+
+  .header-logo-text {
+    @apply text-xl font-semibold text-foreground;
+  }
+
+  .header-nav {
+    @apply flex items-center gap-1 flex-1;
+  }
+
+  .header-nav-item {
+    @apply px-4 py-2 rounded-md text-sm font-medium transition-all duration-150;
+    @apply text-muted-foreground hover:text-foreground hover:bg-muted;
+  }
+.header-nav-item.active  {
+    @apply text-primary;
+  }
+
+  .header-actions {
+    @apply flex items-center gap-3 ml-auto;
+  }
+
+  .main-content {
+    @apply pt-16 min-h-screen;
+  }
+
+  .mobile-menu-button {
+    @apply fixed top-4 left-4 z-50 lg:hidden;
+    @apply w-10 h-10 rounded-md flex items-center justify-center;
+    @apply bg-card border border-border shadow-sm;
+    @apply text-foreground hover:bg-muted transition-colors duration-150;
+  }
+.mobile-menu-overlay  {
+    @apply fixed inset-0 backdrop-blur-sm z-40 lg:hidden;
+    @apply transition-opacity duration-200;
+  }
+
+  .mobile-menu {
+    @apply fixed top-0 left-0 bottom-0 w-64 bg-card border-r border-border z-50 lg:hidden;
+    @apply transform transition-transform duration-200 ease-out;
+    @apply flex flex-col;
+  }
+
+  .mobile-menu.closed {
+    @apply -translate-x-full;
+  }
+
+  .mobile-menu-header {
+    @apply p-4 border-b border-border flex items-center justify-between;
+  }
+
+  .mobile-menu-nav {
+    @apply flex-1 overflow-y-auto p-4;
+  }
+
+  .mobile-menu-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium;
+    @apply text-muted-foreground hover:text-foreground hover:bg-muted;
+    @apply transition-all duration-150;
+  }
+.mobile-menu-item.active  {
+    @apply text-primary;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animation-fade-in {
+    animation: fadeIn 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  .animation-slide-in {
+    animation: slideIn 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
