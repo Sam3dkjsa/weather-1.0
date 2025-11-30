@@ -16,6 +16,27 @@ export default defineConfig({
     port: "4028",
     host: "0.0.0.0",
     strictPort: true,
-    allowedHosts: ['.amazonaws.com', '.builtwithrocket.new']
+    allowedHosts: ['.amazonaws.com', '.builtwithrocket.new'],
+    // Proxy API requests to avoid CORS issues
+    proxy: {
+      '/api/weather': {
+        target: 'https://api.openweathermap.org/data/2.5',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/weather/, ''),
+        secure: true
+      },
+      '/api/geo': {
+        target: 'https://api.openweathermap.org/geo/1.0',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/geo/, ''),
+        secure: true
+      },
+      '/api/pollution': {
+        target: 'https://api.openweathermap.org/data/2.5',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/pollution/, ''),
+        secure: true
+      }
+    }
   }
 });

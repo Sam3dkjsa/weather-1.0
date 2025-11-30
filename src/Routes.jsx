@@ -5,7 +5,7 @@ import ErrorBoundary from "components/ErrorBoundary";
 import NotFound from "pages/NotFound";
 import AirQualityTracking from './pages/air-quality-tracking';
 import Login from './pages/login';
-import EnvironmentalDashboard from './pages/environmental-dashboard';
+import EnvironmentalDashboard from './pages/environmental-database';
 import WeatherMonitoring from './pages/weather-monitoring';
 import PlantAirPurification from './pages/plant-air-purification';
 import Register from './pages/register';

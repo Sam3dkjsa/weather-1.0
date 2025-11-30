@@ -9,6 +9,8 @@ import CareSchedule from './components/CareSchedule';
 import PlantDatabase from './components/PlantDatabase';
 import Select from '../../components/ui/Select';
 import Button from '../../components/ui/Button';
+// Import carbon sequestration utilities
+import { calculateTotalCarbonSequestration, calculateCarbonOffsetEquivalent } from '../../utils/carbonSequestration';
 
 const PlantAirPurification = () => {
   const [selectedRoom, setSelectedRoom] = useState('all');
@@ -33,6 +35,7 @@ const PlantAirPurification = () => {
     room: "Living Room",
     co2Absorption: "6.2 g/h",
     o2Emission: "5.8 g/h",
+    carbonSequestration: "0.8 kg/year",
     effectiveness: 4.8,
     isActive: true,
     nextWatering: "Nov 30, 2025"
@@ -46,6 +49,7 @@ const PlantAirPurification = () => {
     room: "Bedroom",
     co2Absorption: "5.8 g/h",
     o2Emission: "5.4 g/h",
+    carbonSequestration: "0.6 kg/year",
     effectiveness: 4.5,
     isActive: true,
     nextWatering: "Nov 29, 2025"
@@ -59,6 +63,7 @@ const PlantAirPurification = () => {
     room: "Office",
     co2Absorption: "7.1 g/h",
     o2Emission: "6.5 g/h",
+    carbonSequestration: "1.2 kg/year",
     effectiveness: 4.9,
     isActive: true,
     nextWatering: "Dec 01, 2025"
@@ -72,6 +77,7 @@ const PlantAirPurification = () => {
     room: "Kitchen",
     co2Absorption: "5.5 g/h",
     o2Emission: "5.1 g/h",
+    carbonSequestration: "0.7 kg/year",
     effectiveness: 4.3,
     isActive: true,
     nextWatering: "Nov 29, 2025"
@@ -85,6 +91,7 @@ const PlantAirPurification = () => {
     room: "Bedroom",
     co2Absorption: "4.2 g/h",
     o2Emission: "3.9 g/h",
+    carbonSequestration: "0.4 kg/year",
     effectiveness: 3.8,
     isActive: false,
     nextWatering: "Dec 05, 2025"
@@ -98,6 +105,7 @@ const PlantAirPurification = () => {
     room: "Living Room",
     co2Absorption: "6.8 g/h",
     o2Emission: "6.3 g/h",
+    carbonSequestration: "1.0 kg/year",
     effectiveness: 4.7,
     isActive: true,
     nextWatering: "Nov 28, 2025"
@@ -116,6 +124,7 @@ const PlantAirPurification = () => {
     wateringFrequency: "Once per week",
     lightRequirement: "Indirect light",
     airPurification: "Very High",
+    carbonSequestration: "1.5 kg/year",
     idealRoomSize: "Medium to Large",
     recommended: true
   },
@@ -130,6 +139,7 @@ const PlantAirPurification = () => {
     wateringFrequency: "Every 1-2 weeks",
     lightRequirement: "Low to Medium",
     airPurification: "High",
+    carbonSequestration: "0.9 kg/year",
     idealRoomSize: "Small to Medium",
     recommended: true
   },
@@ -144,6 +154,7 @@ const PlantAirPurification = () => {
     wateringFrequency: "Once per week",
     lightRequirement: "Indirect light",
     airPurification: "High",
+    carbonSequestration: "1.1 kg/year",
     idealRoomSize: "Medium to Large",
     recommended: false
   },
@@ -158,18 +169,19 @@ const PlantAirPurification = () => {
     wateringFrequency: "Every 2-3 weeks",
     lightRequirement: "Low to Bright",
     airPurification: "Medium",
+    carbonSequestration: "0.7 kg/year",
     idealRoomSize: "Small to Medium",
     recommended: false
   }];
 
 
   const performanceData = [
-  { time: "6 AM", co2: 12.5, o2: 11.8 },
-  { time: "9 AM", co2: 18.2, o2: 17.1 },
-  { time: "12 PM", co2: 24.8, o2: 23.2 },
-  { time: "3 PM", co2: 28.5, o2: 26.8 },
-  { time: "6 PM", co2: 22.3, o2: 20.9 },
-  { time: "9 PM", co2: 15.7, o2: 14.6 }];
+  { time: "6 AM", co2: 12.5, o2: 11.8, carbonSequestration: 8.2 },
+  { time: "9 AM", co2: 18.2, o2: 17.1, carbonSequestration: 12.5 },
+  { time: "12 PM", co2: 24.8, o2: 23.2, carbonSequestration: 16.8 },
+  { time: "3 PM", co2: 28.5, o2: 26.8, carbonSequestration: 19.2 },
+  { time: "6 PM", co2: 22.3, o2: 20.9, carbonSequestration: 15.4 },
+  { time: "9 PM", co2: 15.7, o2: 14.6, carbonSequestration: 10.8 }];
 
 
   const careSchedules = [
@@ -257,6 +269,10 @@ const PlantAirPurification = () => {
     return sum;
   }, 0);
 
+  // Calculate carbon sequestration
+  const carbonSequestrationData = calculateTotalCarbonSequestration(myPlants);
+  const carbonOffsetEquivalent = calculateCarbonOffsetEquivalent(carbonSequestrationData.total);
+
   const activePlants = myPlants?.filter((plant) => plant?.isActive)?.length;
 
   return (
@@ -319,6 +335,16 @@ const PlantAirPurification = () => {
               </div>
               <p className="text-2xl font-bold text-foreground">{careSchedules?.length}</p>
               <p className="text-xs text-warning mt-1">2 due today</p>
+            </div>
+            <div className="bg-card border border-border rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center">
+                  <Icon name="Leaf" size={20} className="text-success" />
+                </div>
+                <span className="text-sm text-muted-foreground">Carbon Sequestration</span>
+              </div>
+              <p className="text-2xl font-bold text-foreground">{carbonSequestrationData?.formattedTotal || '0 kg CO2/year'}</p>
+              <p className="text-xs text-success mt-1">{carbonOffsetEquivalent?.treeYears?.toFixed(1) || '0'} tree-years equivalent</p>
             </div>
           </div>
 

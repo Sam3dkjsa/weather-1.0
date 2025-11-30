@@ -8,7 +8,19 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLocationDropdownOpen, setIsLocationDropdownOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState('New York, NY');
+  const [currentLocation, setCurrentLocation] = useState(() => {
+    // Load current location from localStorage or default to New York
+    try {
+      const saved = localStorage.getItem('currentLocation');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return parsed.label || 'New York, NY';
+      }
+    } catch (e) {
+      console.error('Error parsing current location from localStorage', e);
+    }
+    return 'New York, NY';
+  });
   const [lastUpdate, setLastUpdate] = useState(new Date());
   const [isOnline, setIsOnline] = useState(true);
 
@@ -65,6 +77,23 @@ const Header = () => {
     };
   }, []);
 
+  // Listen for changes to the current location in localStorage
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'currentLocation') {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          setCurrentLocation(parsed.label || 'New York, NY');
+        } catch (err) {
+          console.error('Error parsing location from storage event', err);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   const handleNavigation = (path) => {
     navigate(path);
     setIsMobileMenuOpen(false);
@@ -73,6 +102,14 @@ const Header = () => {
   const handleLocationChange = (location) => {
     setCurrentLocation(location?.label);
     setIsLocationDropdownOpen(false);
+    
+    // Also save to localStorage to keep consistent with dashboard
+    const locationData = {
+      value: location.value,
+      label: location.label,
+      coordinates: location.coordinates
+    };
+    localStorage.setItem('currentLocation', JSON.stringify(locationData));
   };
 
   const handleLogout = () => {
